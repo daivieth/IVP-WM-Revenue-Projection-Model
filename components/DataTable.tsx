@@ -1,11 +1,11 @@
 import React from 'react';
-import { CalculatedMonth, MonthlyInput } from '../types';
+import { CalculatedQuarter, QuarterlyInput } from '../types';
 import { formatCurrency } from '../utils/calculations';
 
 interface DataTableProps {
-  inputs: MonthlyInput[];
-  calculatedData: CalculatedMonth[];
-  onInputChange: (monthIndex: number, field: keyof MonthlyInput, value: number) => void;
+  inputs: QuarterlyInput[];
+  calculatedData: CalculatedQuarter[];
+  onInputChange: (quarterIndex: number, field: keyof QuarterlyInput, value: number) => void;
 }
 
 const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputChange }) => {
@@ -18,9 +18,9 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
   const totalBrokerage = calculatedData.reduce((a, b) => a + b.expenseBrokerage, 0);
   const totalProfit = calculatedData.reduce((a, b) => a + b.netProfit, 0);
   
-  // End AUM for the 'Total' column is just the final month's End AUM
+  // End AUM for the 'Total' column is just the final quarter's End AUM
   const endAumTotal = calculatedData[calculatedData.length - 1].endAum;
-  // Start AUM for the 'Total' column is the first month's Start AUM
+  // Start AUM for the 'Total' column is the first quarter's Start AUM
   const startAumTotal = calculatedData[0].startAum;
 
   const renderCurrencyCell = (val: number, isCurrency = true) => (
@@ -32,8 +32,8 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
   return (
     <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0">
       <div className="p-6 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
-        <h3 className="text-lg font-semibold text-slate-100">Monthly Breakdown & Inputs</h3>
-        <span className="text-xs text-brand-400 bg-brand-950/50 border border-brand-900 px-3 py-1 rounded-full">Months as Columns</span>
+        <h3 className="text-lg font-semibold text-slate-100">Quarterly Breakdown & Inputs (5 Years)</h3>
+        <span className="text-xs text-brand-400 bg-brand-950/50 border border-brand-900 px-3 py-1 rounded-full">Quarters as Columns</span>
       </div>
       
       <div className="overflow-auto flex-1 custom-scrollbar">
@@ -44,12 +44,12 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
                 Metric
               </th>
               {calculatedData.map((row) => (
-                <th key={row.monthLabel} className="p-4 font-semibold text-slate-400 border-b border-slate-800 text-right min-w-[140px]">
-                  {row.monthLabel}
+                <th key={row.quarterLabel} className="p-4 font-semibold text-slate-400 border-b border-slate-800 text-right min-w-[100px]">
+                  {row.quarterLabel}
                 </th>
               ))}
               <th className="p-4 font-semibold text-slate-100 border-b border-l border-slate-800 text-right min-w-[140px] bg-slate-900/50">
-                Total / EOY
+                Total / End
               </th>
             </tr>
           </thead>
@@ -67,7 +67,7 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
                       type="number"
                       value={input.changeInAum}
                       onChange={(e) => onInputChange(idx, 'changeInAum', Number(e.target.value))}
-                      className="w-full bg-slate-950/30 border-none rounded px-2 py-1.5 text-slate-200 text-right focus:ring-0 outline-none text-xs font-mono"
+                      className="w-full bg-slate-950/30 border-none rounded px-1 py-1 text-slate-200 text-right focus:ring-0 outline-none text-[10px] font-mono"
                     />
                   </div>
                 </td>
@@ -89,7 +89,7 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
                       type="number"
                       value={input.operatingCost}
                       onChange={(e) => onInputChange(idx, 'operatingCost', Number(e.target.value))}
-                      className="w-full bg-slate-950/30 border-none rounded px-2 py-1.5 text-slate-200 text-right focus:ring-0 outline-none text-xs font-mono"
+                      className="w-full bg-slate-950/30 border-none rounded px-1 py-1 text-slate-200 text-right focus:ring-0 outline-none text-[10px] font-mono"
                     />
                   </div>
                 </td>

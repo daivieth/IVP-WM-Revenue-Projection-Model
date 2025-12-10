@@ -1,60 +1,20 @@
-# IVP Wealth Management Revenue Projection Model
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-A React-based application for projecting revenue scenarios in wealth management. Built with TypeScript and Vite.
+# Run and deploy your AI Studio app
 
-## Features
+This contains everything you need to run your app locally.
 
-- Interactive input sections for financial parameters
-- Real-time revenue projections
-- Visual charts displaying key metrics
-- Summary cards highlighting important figures
-- Responsive data tables
+View your app in AI Studio: https://ai.studio/apps/drive/1KkVszu9rAlB3zJTE_dpJ-TofzZb_NGXG
 
-## Installation
+## Run Locally
+
+**Prerequisites:**  Node.js
 
 
 1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start development server:
-```bash
-npm run dev
-```
-
-## Project Structure
-
-```
-├── components/
-│   ├── ChartsSection.tsx    # Data visualization components
-│   ├── DataTable.tsx        # Tabular data presentation
-│   ├── InputSection.tsx     # User input controls
-│   └── SummaryCards.tsx     # Key metric summaries
-├── utils/
-│   └── calculations.ts      # Core financial calculations
-├── App.tsx                  # Main application component
-├── constants.ts             # Application constants
-├── types.ts                 # TypeScript type definitions
-└── vite.config.ts           # Vite configuration
-```
-
-## Technologies Used
-
-- React 18
-- TypeScript 5
-- Vite 4
-- Chart.js (if applicable)
-- Tailwind CSS (if applicable)
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

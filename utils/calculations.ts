@@ -1,30 +1,30 @@
-import { CalculatedMonth, MonthlyInput, SimulationConfig } from "../types";
-import { MONTH_NAMES } from "../constants";
+import { CalculatedQuarter, Scenario, SimulationConfig } from "../types";
+import { QUARTER_LABELS } from "../constants";
 
 export const calculateSimulation = (
   config: SimulationConfig,
-  monthlyInputs: MonthlyInput[]
-): CalculatedMonth[] => {
+  scenario: Scenario
+): CalculatedQuarter[] => {
   let currentAum = config.initialAum;
-  const results: CalculatedMonth[] = [];
+  const results: CalculatedQuarter[] = [];
 
-  monthlyInputs.forEach((input) => {
+  scenario.inputs.forEach((input) => {
     const startAum = currentAum;
     
-    // 1. Calculate Investment Growth (Accrued monthly based on estimated annual return)
-    // Formula: AUM * (AnnualReturn / 12)
-    const monthlyReturnRate = (config.performanceFee.estimatedAnnualReturn / 100) / 12;
-    const investmentGrowth = startAum * monthlyReturnRate;
+    // 1. Calculate Investment Growth
+    // Formula: AUM * (AnnualReturn / 4)
+    // Use the Scenario's specific return rate
+    const quarterlyReturnRate = (scenario.estimatedAnnualReturn / 100) / 4;
+    const investmentGrowth = startAum * quarterlyReturnRate;
 
     // 2. Calculate Management Revenue
-    // Formula: StartAUM * (AnnualFee / 12)
-    const mgmtFee = startAum * ((config.annualManagementFee / 100) / 12);
+    const mgmtFee = startAum * ((config.annualManagementFee / 100) / 4);
 
     // 3. Calculate Performance Fee Revenue
     let perfFee = 0;
     if (config.performanceFee.enabled) {
-      const hurdleMonthly = startAum * ((config.performanceFee.hurdleRate / 100) / 12);
-      const excessReturn = investmentGrowth - hurdleMonthly;
+      const hurdleQuarterly = startAum * ((config.performanceFee.hurdleRate / 100) / 4);
+      const excessReturn = investmentGrowth - hurdleQuarterly;
       if (excessReturn > 0) {
         perfFee = excessReturn * (config.performanceFee.performanceFeePercentage / 100);
       }
@@ -35,36 +35,23 @@ export const calculateSimulation = (
     // 4. Calculate Brokerage Expense
     let brokerageExpense = 0;
     if (config.brokerage.type === 'PERCENTAGE') {
-      brokerageExpense = startAum * ((config.brokerage.percentageFee / 100) / 12);
+      brokerageExpense = startAum * ((config.brokerage.percentageFee / 100) / 4);
     } else {
-      brokerageExpense = config.brokerage.flatFeePerTrade * config.brokerage.estimatedTradesPerMonth;
+      const tradesPerQuarter = config.brokerage.estimatedTradesPerMonth * 3;
+      brokerageExpense = config.brokerage.flatFeePerTrade * tradesPerQuarter;
     }
 
-    // 5. Operating Expense (User Input)
+    // 5. Operating Expense
     const operatingExpense = input.operatingCost;
 
     const totalExpenses = brokerageExpense + operatingExpense;
     const netProfit = totalRevenue - totalExpenses;
 
-    // 6. Update AUM for next month
-    // End AUM = Start + NetFlows + InvestmentGrowth - ManagementFee - Brokerage
-    // (Note: Perf fees are usually deducted from client account, so they reduce AUM too. 
-    // Opex is firm cost, not client cost, so it doesn't reduce AUM directly).
-    // Let's assume fees reduce AUM.
-    
-    const feesDeductedFromAum = mgmtFee + perfFee + brokerageExpense; 
-    // Note: Assuming brokerage is paid by client (typical in some models) or firm?
-    // "Brokerage fees WE pay" implies firm cost. If firm pays, it doesn't come out of client AUM directly
-    // unless it's a wrap fee program. Let's assume for this P&L model, the firm pays brokerage from its own pocket 
-    // if it's an expense line item, BUT usually in wealth management, custody fees come from client.
-    // However, the prompt asks for "Net Profit of OUR Division".
-    // So Revenue = Fees from Client. Expenses = Brokerage + Opex.
-    // So End AUM should only decrease by the Fees collected from Client.
-    
+    // 6. Update AUM for next quarter
     const endAum = startAum + input.changeInAum + investmentGrowth - (mgmtFee + perfFee);
 
     results.push({
-      monthLabel: MONTH_NAMES[input.monthIndex],
+      quarterLabel: QUARTER_LABELS[input.quarterIndex],
       startAum,
       endAum,
       revenueManagementFee: mgmtFee,

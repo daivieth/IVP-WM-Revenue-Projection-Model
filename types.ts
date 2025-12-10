@@ -9,7 +9,7 @@ export interface PerformanceFeeConfig {
   enabled: boolean;
   performanceFeePercentage: number; // e.g., 20%
   hurdleRate: number; // e.g., 5% return needed before fees kick in
-  estimatedAnnualReturn: number; // Expected portfolio growth %
+  // estimatedAnnualReturn moved to Scenario
 }
 
 export interface SimulationConfig {
@@ -19,14 +19,24 @@ export interface SimulationConfig {
   performanceFee: PerformanceFeeConfig;
 }
 
-export interface MonthlyInput {
-  monthIndex: number; // 0-11
-  changeInAum: number; // Net Flows (Deposits - Withdrawals)
-  operatingCost: number; // Fixed monthly opex
+export interface QuarterlyInput {
+  quarterIndex: number; // 0-19
+  changeInAum: number; // Net Flows (Deposits - Withdrawals) per quarter
+  operatingCost: number; // Fixed quarterly opex
 }
 
-export interface CalculatedMonth {
-  monthLabel: string;
+export type ScenarioType = 'pessimistic' | 'median' | 'optimistic';
+
+export interface Scenario {
+  id: ScenarioType;
+  label: string;
+  color: string;
+  estimatedAnnualReturn: number; // Specific to this scenario
+  inputs: QuarterlyInput[];
+}
+
+export interface CalculatedQuarter {
+  quarterLabel: string;
   startAum: number;
   endAum: number;
   revenueManagementFee: number;

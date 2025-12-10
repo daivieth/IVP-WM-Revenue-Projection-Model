@@ -1,29 +1,54 @@
-import { MonthlyInput, SimulationConfig } from "./types";
+import { QuarterlyInput, Scenario, SimulationConfig } from "./types";
 
-export const MONTH_NAMES = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
+export const QUARTER_LABELS = Array.from({ length: 20 }, (_, i) => {
+  const year = Math.floor(i / 4) + 1;
+  const quarter = (i % 4) + 1;
+  return `Y${year} Q${quarter}`;
+});
 
 export const DEFAULT_CONFIG: SimulationConfig = {
   initialAum: 7500000, // $7.5M
   annualManagementFee: 1.5, // 1.5%
   brokerage: {
     type: 'PERCENTAGE',
-    percentageFee: 0.3, // 0.3%
-    flatFeePerTrade: 25,
+    percentageFee: 0.03, // 0.03%
+    flatFeePerTrade: 10, // $10 per trade
     estimatedTradesPerMonth: 100,
   },
   performanceFee: {
     enabled: true,
     performanceFeePercentage: 20,
-    hurdleRate: 6,
-    estimatedAnnualReturn: 10,
+    hurdleRate: 0, // 0%
   }
 };
 
-export const DEFAULT_MONTHLY_INPUTS: MonthlyInput[] = Array.from({ length: 12 }, (_, i) => ({
-  monthIndex: i,
-  changeInAum: 100000, // Default $100k inflow
-  operatingCost: 25000, // Default $25k opex
-}));
+const createInputs = (flow: number, opex: number): QuarterlyInput[] => 
+  Array.from({ length: 20 }, (_, i) => ({
+    quarterIndex: i,
+    changeInAum: flow,
+    operatingCost: opex,
+  }));
+
+export const DEFAULT_SCENARIOS: Scenario[] = [
+  {
+    id: 'pessimistic',
+    label: 'Pessimistic',
+    color: '#f43f5e', // Rose
+    estimatedAnnualReturn: 0,
+    inputs: createInputs(0, 75000), // 0 Net Flows, 75k Opex
+  },
+  {
+    id: 'median',
+    label: 'Median',
+    color: '#6366f1', // Indigo/Brand
+    estimatedAnnualReturn: 0,
+    inputs: createInputs(1000000, 75000), // 1M Inflows, 75k Opex
+  },
+  {
+    id: 'optimistic',
+    label: 'Optimistic',
+    color: '#10b981', // Emerald
+    estimatedAnnualReturn: 0,
+    inputs: createInputs(3000000, 75000), // 3M Inflows, 75k Opex
+  }
+];
