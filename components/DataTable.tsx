@@ -32,7 +32,7 @@ const DataTable: React.FC<DataTableProps> = ({ inputs, calculatedData, onInputCh
   return (
     <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0">
       <div className="p-6 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
-        <h3 className="text-lg font-semibold text-slate-100">Quarterly Breakdown & Inputs (5 Years)</h3>
+        <h3 className="text-lg font-semibold text-slate-100">Quarterly Breakdown & Inputs (8 Years)</h3>
         <span className="text-xs text-brand-400 bg-brand-950/50 border border-brand-900 px-3 py-1 rounded-full">Quarters as Columns</span>
       </div>
       

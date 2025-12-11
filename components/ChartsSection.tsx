@@ -58,7 +58,7 @@ const ChartsSection: React.FC<ChartsSectionProps> = ({ allScenariosData }) => {
       <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-slate-100">Net Profit Growth Trend (Scenario Comparison)</h3>
-            <span className="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">5 Year Forecast</span>
+            <span className="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">8 Year Forecast</span>
         </div>
         <div className="h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -84,7 +84,7 @@ const ChartsSection: React.FC<ChartsSectionProps> = ({ allScenariosData }) => {
                 tick={{ fill: '#64748b', fontSize: 10 }}
                 tickLine={false}
                 axisLine={false}
-                interval={1}
+                interval={3}
               />
               <YAxis 
                 stroke="#64748b"
