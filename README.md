@@ -1,20 +1,51 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# IVP-WM Revenue Projection Model
 
-# Run and deploy your AI Studio app
+A React-based application for revenue forecasting and financial analysis using TypeScript, Vite, and Chart.js.
 
-This contains everything you need to run your app locally.
+## Features
+- Interactive input controls for financial parameters
+- Dynamic revenue projection charts
+- Tabular data representation
+- Summary metrics cards
+- Real-time calculations
 
-View your app in AI Studio: https://ai.studio/apps/drive/1KkVszu9rAlB3zJTE_dpJ-TofzZb_NGXG
+## Project Structure
+```
+├── components/
+│   ├── ChartsSection.tsx    # Interactive revenue charts
+│   ├── DataTable.tsx        # Tabular data display
+│   ├── InputSection.tsx     # User input controls
+│   └── SummaryCards.tsx     # Key metric summaries
+├── utils/
+│   └── calculations.ts      # Core financial formulas
+├── App.tsx                  # Main application component
+├── index.tsx                # Entry point
+├── types.ts                 # Type definitions
+├── constants.ts             # Configuration constants
+└── vite.config.ts           # Build configuration
+```
 
-## Run Locally
+## Installation
+```bash
+npm install
+npm run dev
+```
 
-**Prerequisites:**  Node.js
+## Configuration
+Edit `constants.ts` to adjust:
+- Default financial parameters
+- Chart display options
+- Table formatting settings
 
+## Development Scripts
+```bash
+npm run build  # Create production build
+npm run lint   # Run ESLint checks
+npm run preview  # Preview production build
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Key Dependencies
+- React 18
+- TypeScript 5
+- Chart.js 4
+- Vite 4
